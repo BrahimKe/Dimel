@@ -7,45 +7,112 @@ import {
   TouchableOpacity,
   ScrollView,
   StatusBar,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Button,
+  FlatList
 } from 'react-native';
 
 const stautsBarHeight = StatusBar.currentHeight;
+const headerHeight = stautsBarHeight*1.618;
 const navHeight = stautsBarHeight*1.618*1.618;
 
+import FooterNavigation from '../components/FooterNavigation';
 import DomesticElement from '../components/DomesticElement';
 
+
+import { Icon } from 'react-native-elements';
+import { colors } from '../styles/Colors';
+
 export default class DomesticScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    const dataSource = [
+      {key: 'a'}, 
+      {key: 'b'},
+    ]
+    this.state = {
+      dataSource: dataSource,
+    }
+  }
+
   static navigationOptions = {
-      title: 'Domestic',
-    };
+    title: 'Domestic',
+  };
+
+  addElem() {
+    const newDataSource = this.state.dataSource;
+    newDataSource.unshift({key: 'Reply Q'});
+    //console.log(comments);
+    this.setState({ dataSource: newDataSource.slice(0)});
+  }
+
+  renderItem = ({item}) => {
+    return (
+      <DomesticElement
+        id = {item.id}
+      />
+    );
+  }
+
+  renderSeparator() {
+    return (
+      <View
+        style={
+          {height: 2,
+          backgroundColor: '#eee'}
+        }
+      >
+      </View>
+    );
+  }
+
+  renderFooterList() {
+    return (
+      <View
+        style={
+          {height: 200,
+          backgroundColor: '#fff'}
+        }
+      >
+      </View>
+    )
+  }
 
   render() {
     return (
       <View style={styles.container}>
-      <StatusBar/>
-        <ScrollView style={styles.scrollView}>
-          <DomesticElement title='Lampes à LED'/>
-          <DomesticElement title='Réfrigirateur'/>
-          <DomesticElement title='Télé + Démo'/>
-          <DomesticElement title='Ordinateur'/>
-          <DomesticElement title='Impriment'/>
-          <DomesticElement title='Micro onde'/>
-          <DomesticElement title='Radio-réveil'/>
-          <DomesticElement title='Machine à lavé'/>
-          <DomesticElement title='Ventilateur'/>
-          <TouchableOpacity style={styles.addButton}>
-            <Text style={styles.textAddButton}> + Ajouter un appareil</Text>
-          </TouchableOpacity>
-        </ScrollView>
-        <View style={styles.footerNavigation}>
-          <TouchableOpacity style={styles.footerButton}>
-            <Text style={styles.textFooterButton}>Retour</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.footerButton}>
-            <Text style={styles.textFooterButton}>Suivant</Text>
-          </TouchableOpacity>
+        <StatusBar/>
+        <View style={styles.header}>
+          <View style={styles.areaTextHeader, {flex: 2.5}}>
+            <Text style={styles.textHeader}>Nombre</Text>
+          </View>
+          <View style={styles.areaTextHeader, {flex: 3}}>
+            <Text style={styles.textHeader}>Puissance</Text>
+          </View>
+          <View style={styles.areaTextHeader, {flex: 2.5}}>
+            <Text style={styles.textHeader}>Durée</Text>
+          </View>
+          <View style={{flex: 2}}></View>
         </View>
+        <FlatList
+          data={this.state.dataSource}
+          renderItem={this.renderItem}
+          style={styles.flatList}
+          ItemSeparatorComponent={this.renderSeparator}
+          ListFooterComponent={this.renderFooterList}
+        />
+        <FooterNavigation text='Suivant' goTo='DomesticNextScreen'/>
+        <TouchableOpacity
+          style={styles.addButton}
+          onPress={this.addElem.bind(this)}
+        >
+          <Icon
+            name='plus'
+            type='feather'
+            color='white'
+            size={26}
+          />
+        </TouchableOpacity>
       </View>
     );
   }
@@ -55,44 +122,39 @@ const styles=StyleSheet.create({
   container: {
     width: '100%',
     flex: 1,
-    backgroundColor: '#e9e9e9',
-  },
-  scrollView: {
-    flex: 1,
-  },
-  footerNavigation: {
-    flexDirection: 'row',
-    height: navHeight,
-    backgroundColor: '#cc3333',
-    alignItems: 'center',
-  },
-  footerButton: {
-    flex: 1,
-    height: stautsBarHeight*1.618,
-    marginHorizontal: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#fff',
-    borderRadius: 4,
   },
-  textFooterButton: {
-    color: '#cc3333',
-    fontWeight: '600',
+  header: {
+    width: '100%',
+    height: headerHeight,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    flexDirection: 'row',
+    backgroundColor: colors.secondaryColor,
+  },
+  areaTextHeader: {
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flex: 1,
+  },
+  textHeader: {
+    fontSize: 12,
+    color: '#fff',
+  },
+  flatList: {
+    flex: 1,
   },
   addButton: {
-    marginVertical: 10,
-    width: '50%',
-    alignSelf: 'center',
-    height: stautsBarHeight*1.618,
-    justifyContent: 'center',
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    width: 60,
+    height: 60,
+    borderRadius: 100,
     alignItems: 'center',
-    backgroundColor: 'transparent',
-    borderColor: '#cc3333',
-    borderWidth: 1,
-    borderRadius: 4,
+    justifyContent: 'center',
+    elevation: 4,
+    backgroundColor: colors.primaryColor,
   },
-  textAddButton: {
-    color: '#cc3333',
-    fontWeight: '600',
-  }
 })

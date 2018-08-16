@@ -1,18 +1,22 @@
 import React from 'react';
 import { createStackNavigator } from 'react-navigation';
+
+import SplashScreen from './src/screens/SplashScreen';
 import HomeScreen from './src/screens/HomeScreen';
 import DomesticScreen from './src/screens/DomesticScreen';
-import SplashScreen from './src/screens/SplashScreen';
+import DomesticNextScreen from './src/screens/DomesticNextScreen';
+
 import { colors } from './src/styles/Colors';
 
 const RootStack = createStackNavigator(
   {
+    SplashScreen: SplashScreen,
     HomeScreen: HomeScreen,
     DomesticScreen: DomesticScreen,
-    SplashScreen: SplashScreen,
+    DomesticNextScreen: DomesticNextScreen,
   },
   {
-    initialRouteName: 'SplashScreen',
+    initialRouteName: 'DomesticScreen',
     navigationOptions: {
       headerStyle: {
         backgroundColor: colors.primaryColor,
@@ -20,6 +24,7 @@ const RootStack = createStackNavigator(
       headerTintColor: '#fff',
       headerTitleStyle: {
         fontWeight: 'bold',
+        fontSize: 16,
       },
     },
   }
