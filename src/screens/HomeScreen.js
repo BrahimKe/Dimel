@@ -9,8 +9,8 @@ import {
 import HomeCard from '../components/HomeCard';
 
 const DATA = {
-  domestique: { id:1, title: 'Domestique', src: require('../assets/img/domestique.jpg') },
-  pompe: { id:2, title: 'Pompe', src: require('../assets/img/pompe.jpg')  },
+  domestique: { id:1, title: 'Domestique', src: require('../assets/img/domestic.jpg') },
+  pompe: { id:2, title: 'Pompe', src: require('../assets/img/pump.jpg')  },
 };
 
 export default class HomeScreen extends React.Component {

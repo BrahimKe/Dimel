@@ -8,9 +8,11 @@ import {
   Picker
 } from 'react-native';
 
-import FooterNavigation from '../components/FooterNavigation';
+import { TextField } from 'react-native-material-textfield';
 
-import { colors } from '../styles/Colors';
+import FooterNavigation from './NavBottom';
+
+import { colors } from '../../styles/Colors';
 
 export default class DomesticNextScreen extends React.Component {
   constructor(props) {
@@ -23,50 +25,21 @@ export default class DomesticNextScreen extends React.Component {
     }
   }  
 
-  static navigationOptions = {
-    title: 'Domestic',
-  }
-
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.textInputContainer}>
-          <Text style={styles.textInputTitle}>Irradiation Ej (kWh/m²)</Text>
-          <TextInput
-            keyboardType='numeric'
-            style={styles.textInput}
-            underlineColorAndroid='transparent'
-            value={this.state.Irradiation.value.toString()}
-            onChangeText={(text) => {
-              const newIrradiation = Object.assign({}, this.state.Irradiation, { value: text });
-              this.setState({ Irradiation: newIrradiation });
-            }}
+          <TextField
+            label='Puissance crête du panneau (Wc)'
+            inputContainerStyle={{backgroundColor: '#f6f6f6', paddingHorizontal: 3}}
+            tintColor={colors.primaryColor}
           />
         </View>
         <View style={styles.textInputContainer}>
-        <Text style={styles.textInputTitle}>Puissance crête du panneau (Wc)</Text>
-          <TextInput
-            keyboardType='numeric'
-            style={styles.textInput}
-            underlineColorAndroid='transparent'
-            value={this.state.Irradiation.value.toString()}
-            onChangeText={(text) => {
-              const newIrradiation = Object.assign({}, this.state.Irradiation, { value: text });
-              this.setState({ Irradiation: newIrradiation });
-            }}
-          />
-        </View>
-        <View style={styles.textInputContainer}>
-        <Text style={styles.textInputTitle}>Capacité de la batterie choisi (Ah)</Text>
-          <TextInput
-            keyboardType='numeric'
-            style={styles.textInput}
-            underlineColorAndroid='transparent'
-            value={this.state.Irradiation.value.toString()}
-            onChangeText={(text) => {
-              const newIrradiation = Object.assign({}, this.state.Irradiation, { value: text });
-              this.setState({ Irradiation: newIrradiation });
-            }}
+          <TextField
+            label='Capacité de la batterie choisi (Ah)'
+            inputContainerStyle={{backgroundColor: '#f6f6f6', paddingHorizontal: 3}}
+            tintColor={colors.primaryColor}
           />
         </View>
         <View style={styles.pickerContainer}> 
@@ -82,7 +55,6 @@ export default class DomesticNextScreen extends React.Component {
             <Picker.Item label="Sahara" value="region3" /> 
           </Picker>
         </View>
-        <FooterNavigation text='Valider'/>
       </View>
     )
   }
@@ -116,7 +88,8 @@ const styles = StyleSheet.create({
     color: colors.secondaryColor,
   },
   listRegion: {
-    height: 30,
+    height: 64,
+    backgroundColor: '#f9f9f9'
   },
   regionItem: {
     fontSize: 12,
@@ -127,5 +100,6 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     marginVertical: 10,
     backgroundColor: '#fff',
+    
   }
 })

@@ -3,158 +3,69 @@ import {
   StyleSheet,
   View,
   Text,
-  Image,
   TouchableOpacity,
-  ScrollView,
-  StatusBar,
-  KeyboardAvoidingView,
-  Button,
-  FlatList
 } from 'react-native';
 
-const stautsBarHeight = StatusBar.currentHeight;
-const headerHeight = stautsBarHeight*1.618;
-const navHeight = stautsBarHeight*1.618*1.618;
+import DomesticFieldsStepOne from '../components/domestic/DomesticFieldsStepOne';
+import DomesticFieldsStepTwo from '../components/domestic/DomesticFieldsStepTwo';
 
-import FooterNavigation from '../components/FooterNavigation';
-import DomesticElement from '../components/DomesticElement';
-
-
-import { Icon } from 'react-native-elements';
+import NavBottom from '../components/domestic/NavBottom';
 import { colors } from '../styles/Colors';
+import { Icon } from 'react-native-elements';
 
 export default class DomesticScreen extends React.Component {
   constructor(props) {
     super(props);
-    const dataSource = [
-      {key: 'a'}, 
-      {key: 'b'},
-    ]
     this.state = {
-      dataSource: dataSource,
+      step: 1,
     }
   }
 
-  static navigationOptions = {
-    title: 'Domestic',
-  };
-
-  addElem() {
-    const newDataSource = this.state.dataSource;
-    newDataSource.unshift({key: 'Reply Q'});
-    //console.log(comments);
-    this.setState({ dataSource: newDataSource.slice(0)});
+  nextStep = () => {
+    this.setState({
+      step: this.state.step + 1,
+    });
   }
 
-  renderItem = ({item}) => {
-    return (
-      <DomesticElement
-        id = {item.id}
-      />
-    );
+  previousStep = () => {
+    this.setState({
+      step: this.state.step - 1,
+    })
   }
 
-  renderSeparator() {
-    return (
-      <View
-        style={
-          {height: 2,
-          backgroundColor: '#eee'}
-        }
-      >
-      </View>
-    );
-  }
-
-  renderFooterList() {
-    return (
-      <View
-        style={
-          {height: 200,
-          backgroundColor: '#fff'}
-        }
-      >
-      </View>
-    )
+  renderDomesticScreen() {
+    switch (this.state.step) {
+      case 1:
+        return <DomesticFieldsStepOne/>
+      case 2:
+        return <DomesticFieldsStepTwo/>
+    }
   }
 
   render() {
+    let {
+      step
+    } = this.state;
+
+    let textLeft = step == 1 ? null : 'Retour'; 
+    let textRight = step == 1 ? 'Suivant' : 'Valider';
+    
     return (
       <View style={styles.container}>
-        <StatusBar/>
-        <View style={styles.header}>
-          <View style={styles.areaTextHeader, {flex: 2.5}}>
-            <Text style={styles.textHeader}>Nombre</Text>
-          </View>
-          <View style={styles.areaTextHeader, {flex: 3}}>
-            <Text style={styles.textHeader}>Puissance</Text>
-          </View>
-          <View style={styles.areaTextHeader, {flex: 2.5}}>
-            <Text style={styles.textHeader}>Durée</Text>
-          </View>
-          <View style={{flex: 2}}></View>
-        </View>
-        <FlatList
-          data={this.state.dataSource}
-          renderItem={this.renderItem}
-          style={styles.flatList}
-          ItemSeparatorComponent={this.renderSeparator}
-          ListFooterComponent={this.renderFooterList}
+        {this.renderDomesticScreen()}
+        <NavBottom 
+          textLeft={textLeft}
+          textRight={textRight}
+          nextStep={this.nextStep}
+          previousStep={this.previousStep}
         />
-        <FooterNavigation text='Suivant' goTo='DomesticNextScreen'/>
-        <TouchableOpacity
-          style={styles.addButton}
-          onPress={this.addElem.bind(this)}
-        >
-          <Icon
-            name='plus'
-            type='feather'
-            color='white'
-            size={26}
-          />
-        </TouchableOpacity>
-      </View>
-    );
+      </View> 
+    ); 
   }
 }
 
-const styles=StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
-    width: '100%',
     flex: 1,
-    backgroundColor: '#fff',
-  },
-  header: {
-    width: '100%',
-    height: headerHeight,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    paddingHorizontal: 10,
-    flexDirection: 'row',
-    backgroundColor: colors.secondaryColor,
-  },
-  areaTextHeader: {
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flex: 1,
-  },
-  textHeader: {
-    fontSize: 12,
-    color: '#fff',
-  },
-  flatList: {
-    flex: 1,
-  },
-  addButton: {
-    position: 'absolute',
-    bottom: 20,
-    right: 20,
-    width: 60,
-    height: 60,
-    borderRadius: 100,
-    alignItems: 'center',
-    justifyContent: 'center',
-    elevation: 4,
-    backgroundColor: colors.primaryColor,
   },
 })

@@ -24,7 +24,7 @@ export default class HomeCard extends React.Component {
 const styles = StyleSheet.create({
   image: {
     width: 200,
-    height: 123.5,
+    height: 164,
   },
   text: {
     fontSize: 16,
