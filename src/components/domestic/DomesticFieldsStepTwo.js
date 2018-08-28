@@ -14,7 +14,7 @@ import FooterNavigation from './NavBottom';
 
 import { colors } from '../../styles/Colors';
 
-export default class DomesticNextScreen extends React.Component {
+export default class DomesticFieldsStepTwo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

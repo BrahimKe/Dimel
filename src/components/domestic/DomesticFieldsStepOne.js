@@ -3,11 +3,8 @@ import {
   StyleSheet,
   View,
   Text,
-  Image,
   StatusBar,
-  KeyboardAvoidingView,
-  Button,
-  FlatList,
+  ScrollView,
   TouchableOpacity
 } from 'react-native';
 
@@ -15,64 +12,70 @@ const stautsBarHeight = StatusBar.currentHeight;
 const headerHeight = stautsBarHeight*1.618;
 const navHeight = stautsBarHeight*1.618*1.618;
 
-
 import DomesticElement from './DomesticElement';
-
 
 import { Icon } from 'react-native-elements';
 import { colors } from '../../styles/Colors';
 
-export default class DomesticScreen extends React.PureComponent {
+let values = []
+
+export default class DomesticFieldsStepOne extends React.PureComponent {
   constructor(props) {
     super(props);
-    let dataSource = [];
+    this.idAllocator = 0;
     this.state = {
-      dataSource: dataSource,
+      domesticArray: [],
     }
+
+    this.addDomesticElement = this.addDomesticElement.bind(this);
+    this.saveDomesticElement = this.saveDomesticElement.bind(this);
   }
-  
-  addElem = () => {
-    let dataSource = [...this.state.dataSource];
+
+  addDomesticElement() {
+    const newItem = {
+      id: ++this.idAllocator,
+      quantity: 0,
+      watt: 0,
+      duration: 0,
+      whDay: 0, 
+    };
+    this.setState(({domesticArray}) => {
+      return {domesticArray: [...domesticArray, newItem]};
+    });
+  }
+
+  saveDomesticElement (elem) {
+    const index = this.state.domesticArray.findIndex((item) => item.id === elem.id);
+    const saveItem = {
+      id: elem.id,
+      quantity: elem.quantity,
+      watt: elem.watt,
+      duration: elem.duration,
+      whDay: elem.whDay
+    };
+
+    let newDomesticArray = this.state.domesticArray;
+
+    newDomesticArray[index] = saveItem;
+
     this.setState({
-      dataSource: [...dataSource, DomesticElement]
-    }); 
+      domesticArray: newDomesticArray
+    });
   }
 
-  renderItem = ({item, index}) => {
-    return (
-      <DomesticElement
-        item={item}
-        index={index}
-        id = {item.id}
-      />
-    );
-  }
-
-  renderSeparator() {
-    return (
-      <View
-        style={
-          {height: 2,
-          backgroundColor: '#eee'}
-        }
-      >
-      </View>
-    );
-  }
-
-  renderFooterList() {
-    return (
-      <View
-        style={
-          {height: 200,
-          backgroundColor: '#fff'}
-        }
-      >
-      </View>
-    )
+  saveAndContinue() {
+    values = this.state.domesticArray;
   }
 
   render() {
+    let listDomestic = this.state.domesticArray.map((item) => 
+      <DomesticElement 
+        key={item.id}
+        id={item.id}
+        saveDomesticElement={this.saveDomesticElement}
+      />
+    );
+
     return (
       <View style={styles.container}>
         <StatusBar/>
@@ -94,17 +97,14 @@ export default class DomesticScreen extends React.PureComponent {
             <Text style={styles.textHeader}>Wh/J</Text>
           </View>
         </View>
-          <FlatList
-            data={this.state.dataSource}
-            renderItem={this.renderItem}
-            style={styles.flatList}
-            ItemSeparatorComponent={this.renderSeparator}
-            ListFooterComponent={this.renderFooterList}
-          />
-        
+
+        <ScrollView style={{flex: 1, width: '100%'}}>
+          {listDomestic}
+        </ScrollView>
+
         <TouchableOpacity
           style={styles.addButton}
-          onPress={this.addElem}
+          onPress={this.addDomesticElement}
         >
           <Icon
             name='plus'
@@ -148,6 +148,17 @@ const styles=StyleSheet.create({
   flatList: {
     flex: 1,
     backgroundColor: '#eee'
+  },
+
+  containerFooter: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 150,
+  },
+
+  textFooter: {
+    fontSize: 18,
+    fontWeight: '500'
   },
 
   addButton: {
