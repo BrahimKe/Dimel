@@ -4,6 +4,7 @@ import { createStackNavigator } from 'react-navigation';
 import SplashScreen from './src/screens/SplashScreen';
 import HomeScreen from './src/screens/HomeScreen';
 import DomesticScreen from './src/screens/DomesticScreen';
+import DomesticResultsScreen from './src/screens/DomesticResultsScreen';
 import DomesticFieldsStepOne from './src/components/domestic/DomesticFieldsStepOne';
 import DomesticFieldsStepTwo from './src/components/domestic/DomesticFieldsStepTwo';
 
@@ -14,9 +15,10 @@ const RootStack = createStackNavigator(
     SplashScreen: SplashScreen,
     HomeScreen: HomeScreen,
     DomesticScreen: DomesticScreen,
+    DomesticResultsScreen: DomesticResultsScreen,
   },
   {
-    initialRouteName: 'DomesticScreen',
+    initialRouteName: 'DomesticResultsScreen',
     navigationOptions: {
       headerStyle: {
         backgroundColor: colors.primaryColor,

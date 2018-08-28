@@ -42,6 +42,10 @@ export default class DomesticScreen extends React.Component {
     }
   }
 
+  saveAndContinue = () => {
+    alert('ok');
+  }
+
   render() {
     let {
       step
@@ -58,6 +62,7 @@ export default class DomesticScreen extends React.Component {
           textRight={textRight}
           nextStep={this.nextStep}
           previousStep={this.previousStep}
+          saveAndContinue={this.saveAndContinue}
         />
       </View> 
     ); 

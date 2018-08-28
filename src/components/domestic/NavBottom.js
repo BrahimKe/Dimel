@@ -32,7 +32,11 @@ class FooterNavigation extends React.Component {
   renderRightButton() {
     return (
       <TouchableOpacity 
-        onPress={this.props.nextStep}
+        onPress={() => {
+            this.props.nextStep();
+            this.props.saveAndContinue();
+          }
+        }
         style={[styles.button, {marginLeft: 'auto'}]}
       >
         <Text style={styles.textFooterButton}>{this.props.textRight.toUpperCase()}</Text>
