@@ -18,7 +18,7 @@ const RootStack = createStackNavigator(
     DomesticResultsScreen: DomesticResultsScreen,
   },
   {
-    initialRouteName: 'DomesticResultsScreen',
+    initialRouteName: 'DomesticScreen',
     navigationOptions: {
       headerStyle: {
         backgroundColor: colors.primaryColor,

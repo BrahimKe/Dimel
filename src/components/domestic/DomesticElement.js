@@ -22,6 +22,7 @@ export default class DomesticElement extends React.Component {
       watt: 0,
       duration: 0,
       whDay: 0,
+      pt: 0,
     }
 
     this.focusNextField = this.focusNextField.bind(this);
@@ -88,9 +89,11 @@ export default class DomesticElement extends React.Component {
             onChangeText={(text) => {
               quantity = text;
               whDay = quantity*watt*duration;
+              pt = quantity*watt;
               this.setState({
                 quantity: quantity,
                 whDay: whDay,
+                pt: pt,
               })
             }}
             ref={input => {
@@ -114,10 +117,12 @@ export default class DomesticElement extends React.Component {
             onChangeText={(text) => {
               watt = text;
               whDay = quantity*watt*duration;
+              pt = quantity*watt;
               this.setState({
                 watt: watt,
                 whDay: whDay,
-              })
+                pt: pt,
+              },)
             }}
             ref={input => {
               this.inputs['watt'] = input;
@@ -140,9 +145,11 @@ export default class DomesticElement extends React.Component {
             onChangeText={(text) => {
               duration = text;
               whDay = quantity*watt*duration;
+              pt = quantity*watt;
               this.setState({
                 duration: duration,
                 whDay: whDay,
+                pt: pt,
               })
             }}
             ref={input => {

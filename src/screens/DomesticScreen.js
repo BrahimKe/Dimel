@@ -6,6 +6,9 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+export var stepOneFieldValues = [];
+export var stepTwoFieldValues = {};
+
 import DomesticFieldsStepOne from '../components/domestic/DomesticFieldsStepOne';
 import DomesticFieldsStepTwo from '../components/domestic/DomesticFieldsStepTwo';
 
@@ -16,34 +19,51 @@ import { Icon } from 'react-native-elements';
 export default class DomesticScreen extends React.Component {
   constructor(props) {
     super(props);
+    this.maxStep = 2;
     this.state = {
-      step: 1,
+      step: 2,
     }
   }
 
+  getCurrentStep = () => {
+    return this.state.step;
+  }
+
   nextStep = () => {
+    this.getCurrentStep() == this.maxStep ? 
+    null :
     this.setState({
       step: this.state.step + 1,
     });
   }
 
   previousStep = () => {
+    this.getCurrentStep() == 1 ?
+    null: 
     this.setState({
       step: this.state.step - 1,
     })
   }
 
+  saveAndContinueStepOne = (fields) => {
+    stepOneFieldValues = fields;
+  }
+
+  saveAndContinueStepTwo = (fields) => {
+    stepTwoFieldValues = fields;
+  }
+
   renderDomesticScreen() {
     switch (this.state.step) {
       case 1:
-        return <DomesticFieldsStepOne/>
+        return  <DomesticFieldsStepOne 
+                  saveAndContinue={this.saveAndContinueStepOne}  
+                />
       case 2:
-        return <DomesticFieldsStepTwo/>
+        return  <DomesticFieldsStepTwo
+                  saveAndContinue={this.saveAndContinueStepTwo}
+                />
     }
-  }
-
-  saveAndContinue = () => {
-    alert('ok');
   }
 
   render() {
@@ -62,7 +82,8 @@ export default class DomesticScreen extends React.Component {
           textRight={textRight}
           nextStep={this.nextStep}
           previousStep={this.previousStep}
-          saveAndContinue={this.saveAndContinue}
+          getCurrentStep={this.getCurrentStep}
+          
         />
       </View> 
     ); 

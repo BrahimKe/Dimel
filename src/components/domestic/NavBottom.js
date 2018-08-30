@@ -12,6 +12,9 @@ import { Icon } from 'react-native-elements';
 import { colors } from '../../styles/Colors';
 
 class FooterNavigation extends React.Component {
+
+  
+
   renderLeftButton() {
     return ( 
       <TouchableOpacity 
@@ -34,7 +37,7 @@ class FooterNavigation extends React.Component {
       <TouchableOpacity 
         onPress={() => {
             this.props.nextStep();
-            this.props.saveAndContinue();
+            this.props.getCurrentStep() === 1 ? null : this.props.navigation.navigate('DomesticResultsScreen');
           }
         }
         style={[styles.button, {marginLeft: 'auto'}]}
@@ -63,20 +66,14 @@ const styles = StyleSheet.create({
   navBottom: {
     width: '100%',
     height: 50,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     backgroundColor: '#efefef',
-    shadowRadius: 0,
-    shadowOffset: {
-      width: 0,
-      height: 20,
-    },
-    shadowColor: '#000000',
     borderTopWidth: 1,
     borderTopColor: 'rgba(0, 0, 0, 0.07)',
-    elevation: 4,
   },
+
   button: {
     height: 40,
     width: 120,
@@ -85,12 +82,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
   },
+
   textFooterButton: {
     color: colors.primaryColor,
     marginHorizontal: 5,
     fontSize: 16,
     fontWeight: '600',
-  }
+  },
 })
 
 export default withNavigation(FooterNavigation);

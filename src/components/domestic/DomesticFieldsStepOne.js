@@ -17,8 +17,6 @@ import DomesticElement from './DomesticElement';
 import { Icon } from 'react-native-elements';
 import { colors } from '../../styles/Colors';
 
-let values = []
-
 export default class DomesticFieldsStepOne extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -37,11 +35,14 @@ export default class DomesticFieldsStepOne extends React.PureComponent {
       quantity: 0,
       watt: 0,
       duration: 0,
-      whDay: 0, 
+      whDay: 0,
+      pt: 0,
     };
     this.setState(({domesticArray}) => {
       return {domesticArray: [...domesticArray, newItem]};
     });
+    
+    this.props.saveAndContinue(this.state.domesticArray);
   }
 
   saveDomesticElement (elem) {
@@ -51,20 +52,18 @@ export default class DomesticFieldsStepOne extends React.PureComponent {
       quantity: elem.quantity,
       watt: elem.watt,
       duration: elem.duration,
-      whDay: elem.whDay
+      whDay: elem.whDay,
+      pt: elem.pt,
     };
 
     let newDomesticArray = this.state.domesticArray;
-
     newDomesticArray[index] = saveItem;
 
     this.setState({
       domesticArray: newDomesticArray
     });
-  }
 
-  saveAndContinue() {
-    values = this.state.domesticArray;
+    this.props.saveAndContinue(this.state.domesticArray);
   }
 
   render() {
